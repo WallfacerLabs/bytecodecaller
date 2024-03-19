@@ -1,0 +1,9 @@
+[profile.default]
+  solc_version = "0.8.18"
+  src = "contracts"
+  out = "build"
+  evm_version = "shanghai"
+
+[fmt]
+  bracket_spacing = true
+  number_underscore = "thousands"

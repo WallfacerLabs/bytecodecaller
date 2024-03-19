@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "target": "esnext",
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "rootDir": "./",
+    "strict": true,
+    "outDir": "./build"
+  },
+  "include": ["src"]
+}

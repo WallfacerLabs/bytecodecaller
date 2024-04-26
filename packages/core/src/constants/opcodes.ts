@@ -1,3 +1,5 @@
+export type OpCodeName = keyof typeof OPCODES
+
 export const OPCODES = {
   STOP: '00',
   ADD: '01',

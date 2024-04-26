@@ -10,7 +10,7 @@
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
     "test": "vitest run",
-    "build": "solcjs --bin ./test/contracts/*.sol -o ./test/build"
+    "build": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build"
   },
   "devDependencies": {
     "solc": "^0.8.25",

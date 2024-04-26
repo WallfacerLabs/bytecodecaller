@@ -1,7 +1,9 @@
 {
-  "name": "core",
+  "name": "@bytecodecaller/core",
+  "author": "Wallfacer Labs",
+  "repository": "git@github.com:WallfacerLabs/bytecodecaller.git",
+  "license": "MIT",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -10,9 +12,6 @@
     "test": "vitest run",
     "build": "solcjs --bin ./test/contracts/*.sol -o ./test/build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "solc": "^0.8.25",
     "@biomejs/biome": "^1.6.1",

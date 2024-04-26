@@ -1,8 +1,7 @@
 {
-  "name": "callerV2",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "bytecodecaller",
+  "author": "Wallfacer Labs",
+  "license": "MIT",
   "scripts": {
     "build": "pnpm run -r build",
     "lint": "pnpm run -r lint",
@@ -10,8 +9,6 @@
     "checks": "pnpm build && pnpm lint && pnpm test"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@biomejs/biome": "^1.6.1"
   }

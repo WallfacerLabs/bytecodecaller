@@ -57,42 +57,52 @@ contract MangoPriceReader {
 ### Use with viem
 
 ```typescript
-    const abi = parseAbi(['function read(address) external view returns (uint256[])'])
-    const callData = encodeFunctionData({
-      abi,
-      functionName: 'read',
-      args: [client.contracts.Array.address],
-    })
+  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
-    const byteCodeCallerData = createDataForBytecode(contract.bytecode, callData)
-    const result = await client.call({
-      to: null,
-      data: byteCodeCallerData,
-    })
+  const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
+  const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-    const decodedResult = decodeFunctionResult({
-      abi,
-      functionName: 'read',
-      data: result.data!,
-    })
+  const abi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
+  const callData = encodeFunctionData({
+    abi,
+    functionName: 'read',
+    args: [friendContractAddress, sellerContractAddress],
+  })
+
+  const byteCodeCallerData = createDataForBytecode(bytecode, callData)
+  const result = await client.call({
+    to: null,
+    data: byteCodeCallerData,
+  })
+
+  const decodedResult = decodeFunctionResult({
+    abi,
+    functionName: 'estimateExpenses',
+    data: result.data!,
+  })
 ```
 
 ### Use with ethers 6
 
 ```typescript
-  const ArrayReaderInterface = new Interface([
-    'function read(address) view returns (uint256[])',
+  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+
+  const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
+  const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
+
+  const PriceReaderInterface = new Interface([
+    'function estimateExpenses(address, address) external view returns (uint256)',
   ])
 
-  const callData = ArrayReaderInterface.encodeFunctionData('read', [Array.address])
-  const bytecodeCallerData = createDataForBytecode(ArrayReader.bytecode, callData)
+  const callData = PriceReaderInterface.encodeFunctionData('read', [friendContractAddress, sellerContractAddress])
+  const bytecodeCallerData = createDataForBytecode(bytecode, callData)
 
   const result = await provider.call({
     to: null,
     data: bytecodeCallerData,
   })
 
-  const decodedResult = ArrayReaderInterface.decodeFunctionResult('read', result)
+  const decodedResult = PriceReaderInterface.decodeFunctionResult('estimateExpenses', result)
 ```
 
 ## License

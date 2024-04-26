@@ -9,8 +9,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
-    "test": "vitest run",
-    "build": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build"
+    "test": "pnpm pretest && vitest run",
+    "pretest": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build"
   },
   "devDependencies": {
     "solc": "^0.8.25",

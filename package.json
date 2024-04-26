@@ -11,5 +11,8 @@
   "keywords": [],
   "devDependencies": {
     "@biomejs/biome": "^1.6.1"
+  },
+  "dependencies": {
+    "@changesets/cli": "^2.27.1"
   }
 }

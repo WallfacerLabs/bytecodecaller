@@ -63,7 +63,7 @@ export async function deployContracts(anvil: Anvil) {
       abi: contract.abi,
       chain: anvilChain,
     })
-    
+
     const receipt = await publicClient.waitForTransactionReceipt({ hash })
     if (receipt.contractAddress) {
       contracts[contractName].address = receipt.contractAddress

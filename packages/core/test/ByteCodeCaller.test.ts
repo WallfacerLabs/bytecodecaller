@@ -28,7 +28,7 @@ describe('ByteCodeCaller', () => {
     const result = await client.call({
       to: null,
       data: byteCodeCallerData,
-    });
+    })
 
     expect(result.data).toBeDefined()
 

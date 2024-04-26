@@ -22,7 +22,9 @@ interface Contract {
 
 function getBytecode(fileName: string, contractName: string): Hex {
   fileName = fileName.replace('.', '_')
-  return fs.readFileSync(`./test/build/test_contracts_${fileName}_${contractName}.bin`).toString() as Hex
+  return fs
+    .readFileSync(`./test/integration/build/test_integration_contracts_${fileName}_${contractName}.bin`)
+    .toString() as Hex
 }
 
 const contracts: Record<string, Contract> = {

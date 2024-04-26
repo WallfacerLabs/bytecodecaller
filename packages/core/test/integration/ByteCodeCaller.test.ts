@@ -1,8 +1,8 @@
 import { createDataForBytecode } from 'src/createDataForBytecode'
 import { decodeFunctionResult, encodeFunctionData } from 'viem'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { startAnvil, stopAnvil } from './anvil'
-import { getAnvilClient } from './client'
+import { startAnvil, stopAnvil } from './server/anvil'
+import { getAnvilClient } from './server/client'
 
 describe('ByteCodeCaller', () => {
   let client: Awaited<ReturnType<typeof getAnvilClient>>

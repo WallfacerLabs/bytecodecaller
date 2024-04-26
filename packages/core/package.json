@@ -4,7 +4,9 @@
   "repository": "git@github.com:WallfacerLabs/bytecodecaller.git",
   "license": "MIT",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",

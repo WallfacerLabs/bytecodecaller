@@ -26,13 +26,17 @@ function getBytecode(fileName: string, contractName: string): Hex {
 }
 
 const contracts: Record<string, Contract> = {
-  Array: {
-    abi: parseAbi(['function get(uint256) external view returns (uint256)']),
-    bytecode: getBytecode('Array.sol', 'Array'),
+  Friend: {
+    abi: parseAbi(['function askHowManyMangoes() external view returns (uint256)']),
+    bytecode: getBytecode('FruitMarket.sol', 'FriendWhoWantsMangoes'),
   },
-  ArrayReader: {
-    abi: parseAbi(['function read(address) external view returns (uint256[])']),
-    bytecode: getBytecode('ArrayReader.sol', 'ArrayReader'),
+  Seller: {
+    abi: parseAbi(['function askForMangoesPrice(uint256 numberOfMangoes) external view returns (uint256)']),
+    bytecode: getBytecode('FruitMarket.sol', 'MangoSeller'),
+  },
+  PriceEstimator: {
+    abi: parseAbi(['function estimateExpenses(address, address) external view returns (uint256)']),
+    bytecode: getBytecode('MangoPriceEstimator.sol', 'MangoPriceEstimator'),
   },
 } as const
 

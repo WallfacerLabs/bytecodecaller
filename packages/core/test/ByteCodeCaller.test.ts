@@ -16,12 +16,12 @@ describe('ByteCodeCaller', () => {
     await stopAnvil()
   })
 
-  it('ArrayReader', async () => {
-    const contract = client.contracts.ArrayReader
+  it('reads 2 contracts dependent data', async () => {
+    const contract = client.contracts.PriceEstimator
     const callData = encodeFunctionData({
       abi: contract.abi,
-      functionName: 'read',
-      args: [client.contracts.Array.address],
+      functionName: 'estimateExpenses',
+      args: [client.contracts.Friend.address, client.contracts.Seller.address],
     })
 
     const byteCodeCallerData = createDataForBytecode(contract.bytecode, callData)
@@ -34,10 +34,10 @@ describe('ByteCodeCaller', () => {
 
     const decodedResult = decodeFunctionResult({
       abi: contract.abi,
-      functionName: 'read',
+      functionName: 'estimateExpenses',
       data: result.data!,
     })
 
-    expect(decodedResult).toEqual([1n, 2n, 3n])
+    expect(decodedResult).toEqual(200n)
   })
 })

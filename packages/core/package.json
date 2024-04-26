@@ -4,23 +4,26 @@
   "repository": "git@github.com:WallfacerLabs/bytecodecaller.git",
   "license": "MIT",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
-    "test": "pnpm pretest && vitest run",
-    "pretest": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build"
+    "test": "pnpm pretest && TS_NODE_PROJECT=./tsconfig.test.json vitest run",
+    "pretest": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build",
+    "build:cjs": "tsc --outDir dist/cjs",
+    "build:esm": "tsc --module esnext --target esnext --outDir dist/esm",
+    "build": "pnpm run build:esm && pnpm run build:cjs",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "solc": "^0.8.25",
     "@biomejs/biome": "^1.6.1",
     "@types/node": "^20.11.30",
     "@viem/anvil": "^0.0.9",
+    "solc": "^0.8.25",
     "tsx": "^4.7.1",
     "typescript": "^5.4.2",
     "viem": "^2.9.27",
     "vitest": "^1.5.2"
-  },
-  "dependencies": {}
+  }
 }

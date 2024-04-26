@@ -1,0 +1,34 @@
+name: 👷‍♂️ CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          clean: false
+
+      - name: Use pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.4.0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run CI Checks
+        run: pnpm run checks

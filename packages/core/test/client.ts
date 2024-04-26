@@ -1,5 +1,4 @@
-import { type Anvil, createAnvil } from '@viem/anvil'
-import { http, createClient } from 'viem'
+import { http, createPublicClient } from 'viem'
 import { getAnvil } from './anvil'
 import { deployContracts } from './contracts'
 
@@ -8,7 +7,7 @@ export async function getAnvilClient() {
 
   const contracts = await deployContracts(anvil)
 
-  return createClient({
+  return createPublicClient({
     transport: http(`http://${anvil.host}:${anvil.port}`),
   }).extend(() => ({
     contracts,

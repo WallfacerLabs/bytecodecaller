@@ -1,0 +1,1 @@
+export { createDataForBytecode } from './createDataForBytecode'

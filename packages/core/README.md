@@ -20,59 +20,39 @@
 
 ## Overview
 
+Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
+
+Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **createDataForBytecode** as in example below. 
+
+**Note:** There is no need to deploy the MangoPriceReader. 
+
 Contract that you want to read:
 
 ```solidity
-contract Array {
-    uint256[] arr;
-
-    constructor() {
-        arr.push(1);
-        arr.push(2);
-        arr.push(3);
+contract FriendWhoWantsMangoes {
+    function askHowManyMangoes() external pure returns(uint256) {
+        return 10;
     }
+}
 
-    function get(uint256 _index) public view returns (uint256) {
-        return arr[_index];
-    }
-
-    function length() public view returns (uint256) {
-        return arr.length;
+contract MangoSeller {
+    function askForMangoesPrice(uint256 numberOfMangoes) external pure returns(uint256) {
+        return numberOfMangoes * 20;
     }
 }
 ```
 
-Query contract to use:
+Query contract to use: *(No need to deploy this smart contract)*
 
 ```solidity
-contract ArrayReader {
-    function read(IArray array) public view returns (uint256[] memory) {
-        uint256[] memory result = new uint256[](array.length());
-        for (uint256 i = 0; i < array.length(); i++) {
-            result[i] = array.get(i);
-        }
-        return result;
+contract MangoPriceReader {
+    function estimateExpenses(address friend, address seller) public pure returns (uint256) {
+        uint256 mangoesToBuy = FriendWhoWantsMangoes(friend).askHowManyMangoes();
+        return MangoSeller(seller).askForMangoesPrice(mangoesToBuy);
     }
 }
 ```
 
-### Use with ethers 6
-
-```typescript
-  const ArrayReaderInterface = new Interface([
-    'function read(address) view returns (uint256[])',
-  ])
-
-  const callData = ArrayReaderInterface.encodeFunctionData('read', [Array.address])
-  const bytecodeCallerData = createDataForBytecode(ArrayReader.bytecode, callData)
-
-  const result = await provider.call({
-    to: null,
-    data: bytecodeCallerData,
-  })
-
-  const decodedResult = ArrayReaderInterface.decodeFunctionResult('read', result)
-```
 
 ### Use with viem
 
@@ -95,6 +75,24 @@ contract ArrayReader {
       functionName: 'read',
       data: result.data!,
     })
+```
+
+### Use with ethers 6
+
+```typescript
+  const ArrayReaderInterface = new Interface([
+    'function read(address) view returns (uint256[])',
+  ])
+
+  const callData = ArrayReaderInterface.encodeFunctionData('read', [Array.address])
+  const bytecodeCallerData = createDataForBytecode(ArrayReader.bytecode, callData)
+
+  const result = await provider.call({
+    to: null,
+    data: bytecodeCallerData,
+  })
+
+  const decodedResult = ArrayReaderInterface.decodeFunctionResult('read', result)
 ```
 
 ## License

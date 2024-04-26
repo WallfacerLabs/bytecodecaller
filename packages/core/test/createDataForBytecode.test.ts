@@ -25,15 +25,15 @@ const THIRD_BYTECODE_CONSTANT_SEGMENT =
   ZERO_HEX +
   OPCODES.RETURN
 
-describe('createDataForByteCode', () => {
-  const bytecode = 'bytecode'
-  const calldata = 'calldata'
-  const dat = bytecode + calldata
-  const bytecodeSizeHex = '04'
-  const calldataSizeHex = '04'
-  const datSizeHex = '08'
-  const calldataMemoryPositionHex = '04'
-  const expectedDataForBytecode =
+function getExpectedBytecode(
+  bytecode: string,
+  calldata: string,
+  bytecodeSizeHex: string,
+  calldataSizeHex: string,
+  datSizeHex: string,
+  calldataMemoryPositionHex: string
+) {
+  return (
     (OPCODES.PUSH1 + datSizeHex).repeat(2) +
     FIRST_BYTECODE_CONSTANT_SEGMENT +
     OPCODES.PUSH1 +
@@ -44,7 +44,26 @@ describe('createDataForByteCode', () => {
     OPCODES.PUSH1 +
     bytecodeSizeHex +
     THIRD_BYTECODE_CONSTANT_SEGMENT +
-    dat
+    bytecode +
+    calldata
+  )
+}
+
+describe('createDataForByteCode', () => {
+  const bytecode = 'bytecode'
+  const calldata = 'calldata'
+  const bytecodeSizeHex = '04'
+  const calldataSizeHex = '04'
+  const datSizeHex = '08'
+  const calldataMemoryPositionHex = '04'
+  const expectedDataForBytecode = getExpectedBytecode(
+    bytecode,
+    calldata,
+    bytecodeSizeHex,
+    calldataSizeHex,
+    datSizeHex,
+    calldataMemoryPositionHex
+  )
 
   describe('creates data for bytecode', () => {
     it('no prefix', () => {
@@ -73,34 +92,31 @@ describe('createDataForByteCode', () => {
   it('empty bytecode', () => {
     const calldataMemoryPositionHex = '00'
     const bytecodeSizeHex = '00'
-    const expectedDataForBytecode =
-      (OPCODES.PUSH1 + calldataSizeHex).repeat(2) +
-      FIRST_BYTECODE_CONSTANT_SEGMENT +
-      OPCODES.PUSH1 +
-      calldataSizeHex +
-      OPCODES.PUSH1 +
-      calldataMemoryPositionHex +
-      SECOND_BYTECODE_CONSTANT_SEGMENT +
-      OPCODES.PUSH1 +
-      bytecodeSizeHex +
-      THIRD_BYTECODE_CONSTANT_SEGMENT +
-      calldata
+    const datSizeHex = '04'
+    const bytecode = ''
+    const expectedDataForBytecode = getExpectedBytecode(
+      bytecode,
+      calldata,
+      bytecodeSizeHex,
+      calldataSizeHex,
+      datSizeHex,
+      calldataMemoryPositionHex
+    )
     expect(createDataForBytecode('', calldata).toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
   })
 
   it('empty calldata', () => {
-    const expectedDataForBytecode =
-      (OPCODES.PUSH1 + bytecodeSizeHex).repeat(2) +
-      FIRST_BYTECODE_CONSTANT_SEGMENT +
-      OPCODES.PUSH1 +
-      ZERO_HEX +
-      OPCODES.PUSH1 +
-      calldataMemoryPositionHex +
-      SECOND_BYTECODE_CONSTANT_SEGMENT +
-      OPCODES.PUSH1 +
-      bytecodeSizeHex +
-      THIRD_BYTECODE_CONSTANT_SEGMENT +
-      bytecode
+    const datSizeHex = '04'
+    const calldataSizeHex = '00'
+    const calldata = ''
+    const expectedDataForBytecode = getExpectedBytecode(
+      bytecode,
+      calldata,
+      bytecodeSizeHex,
+      calldataSizeHex,
+      datSizeHex,
+      calldataMemoryPositionHex
+    )
     expect(createDataForBytecode(bytecode, '').toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
   })
 

@@ -30,3 +30,4 @@ dist-ssr
 .env
 
 /build
+/test/build

@@ -1,9 +1,0 @@
-# Compiler files
-cache/
-build/
-
-# Ignores development broadcast logs
-/broadcast
-
-# Dotenv file
-.env

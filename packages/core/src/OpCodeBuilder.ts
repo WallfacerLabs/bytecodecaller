@@ -1,4 +1,5 @@
-import { OPCODES } from './constants/opcodes'
+import { OPCODES, type OpCodeName } from './constants/opcodes'
+import { InvalidBytesSizeError, UnevenBytesLengthError } from './errors'
 import { padHex } from './utils/padHex'
 
 export class OpCodeBuilder {
@@ -9,21 +10,23 @@ export class OpCodeBuilder {
     return this
   }
 
-  public addOpCode(opCode: keyof typeof OPCODES) {
+  public addOpCode(opCode: OpCodeName) {
     this.opCodes.push(OPCODES[opCode])
     return this
   }
 
   public pushToStack(bytes: string | number) {
     if (typeof bytes === 'number') bytes = padHex(bytes.toString(16))
+    if (bytes.length % 2 !== 0) throw new UnevenBytesLengthError()
     const bytesLength = bytes.length / 2
-    if (bytesLength > 32) throw new Error('Bytes length must be equal or less than 32')
+    if (bytesLength > 32) throw new InvalidBytesSizeError()
     const pushOpCode = (Number(`0x${OPCODES.PUSH0}`) + bytesLength).toString(16)
     this.opCodes.push(pushOpCode, bytes)
     return this
   }
 
   public pushBytesSizeToStack(bytes: string) {
+    if (bytes.length % 2 !== 0) throw new UnevenBytesLengthError()
     const callDataSize = padHex((bytes.length / 2).toString(16))
     this.pushToStack(callDataSize)
     return this

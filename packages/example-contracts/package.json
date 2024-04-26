@@ -3,14 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "install": "forge install || git submodule update --init --recursive",
-    "build": "forge build",
-    "test": "forge test --no-match-contract ForkTest",
-    "test:fork": "forge test --match-contract ForkTest",
     "lint:sol": "solhint '{contracts,test}/**/*.sol'",
-    "lint:fmt": "forge fmt --check",
-    "lint:fix": "forge fmt",
-    "lint": "pnpm lint:sol && pnpm lint:fmt"
+    "lint": "pnpm lint:sol"
   },
   "devDependencies": {
     "solhint": "^4.5.2"

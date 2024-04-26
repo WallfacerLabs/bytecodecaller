@@ -16,6 +16,9 @@ jobs:
         with:
           clean: false
 
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+
       - name: Use pnpm
         uses: pnpm/action-setup@v2
         with:

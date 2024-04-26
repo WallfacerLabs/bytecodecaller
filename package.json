@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "pnpm run -r build",
     "lint": "pnpm run -r lint",
     "test": "pnpm run -r test",
-    "checks": "pnpm lint && pnpm test"
+    "checks": "pnpm build && pnpm lint && pnpm test"
   },
   "keywords": [],
   "author": "",

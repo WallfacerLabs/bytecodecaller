@@ -9,6 +9,11 @@
 - ⛓️ **Interdependent queries** - get data dependent on other call results in a single call
 - 🚀 **No limits** - works on every EVM based chain, on every block in time
 
+
+## TL;DR
+
+BytecodeCaller pretends to deploy any reading contract allowing you to create any set of calls.
+
 ## Overview
 
 Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 

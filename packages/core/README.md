@@ -65,7 +65,7 @@ contract MangoPriceReader {
     args: [friendContractAddress, sellerContractAddress],
   })
 
-  const byteCodeCallerData = getBytecodeCallerData(bytecode, callData)
+  const byteCodeCallerData = getBytecodeCallerData(mangoPriceReaderBytecode, callData)
   const result = await client.call({
     to: null,
     data: byteCodeCallerData,

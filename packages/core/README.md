@@ -9,6 +9,11 @@
 - ⛓️ **Interdependent queries** - get data dependent on other call results in a single call
 - 🚀 **No limits** - works on every EVM based chain, on every block in time
 
+
+## TL;DR
+
+BytecodeCaller pretends to deploy any reading contract allowing you to create any set of calls.
+
 ## Overview
 
 Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
@@ -48,26 +53,26 @@ contract MangoPriceReader {
 ### Use with viem
 
 ```typescript
-  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const abi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
+  const mangoPriceReaderAbi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
   const callData = encodeFunctionData({
-    abi,
-    functionName: 'read',
+    abi: mangoPriceReaderAbi,
+    functionName: 'estimateExpenses',
     args: [friendContractAddress, sellerContractAddress],
   })
 
-  const byteCodeCallerData = getBytecodeCallerData(bytecode, callData)
+  const byteCodeCallerData = getBytecodeCallerData(mangoPriceReaderBytecode, callData)
   const result = await client.call({
     to: null,
     data: byteCodeCallerData,
   })
 
   const decodedResult = decodeFunctionResult({
-    abi,
+    abi: mangoPriceReaderAbi,
     functionName: 'estimateExpenses',
     data: result.data!,
   })
@@ -76,24 +81,24 @@ contract MangoPriceReader {
 ### Use with ethers 6
 
 ```typescript
-  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const PriceReaderInterface = new Interface([
+  const MangoPriceReaderInterface = new Interface([
     'function estimateExpenses(address, address) external view returns (uint256)',
   ])
 
-  const callData = PriceReaderInterface.encodeFunctionData('read', [friendContractAddress, sellerContractAddress])
-  const bytecodeCallerData = getBytecodeCallerData(bytecode, callData)
+  const callData = MangoPriceReaderInterface.encodeFunctionData('estimateExpenses', [friendContractAddress, sellerContractAddress])
+  const bytecodeCallerData = getBytecodeCallerData(mangoPriceReaderBytecode, callData)
 
   const result = await provider.call({
     to: null,
     data: bytecodeCallerData,
   })
 
-  const decodedResult = PriceReaderInterface.decodeFunctionResult('estimateExpenses', result)
+  const decodedResult = MangoPriceReaderInterface.decodeFunctionResult('estimateExpenses', result)
 ```
 
 ## License

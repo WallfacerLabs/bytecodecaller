@@ -53,14 +53,14 @@ contract MangoPriceReader {
 ### Use with viem
 
 ```typescript
-  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const abi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
+  const mangoPriceReaderAbi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
   const callData = encodeFunctionData({
-    abi,
+    abi: mangoPriceReaderAbi,
     functionName: 'estimateExpenses',
     args: [friendContractAddress, sellerContractAddress],
   })
@@ -72,7 +72,7 @@ contract MangoPriceReader {
   })
 
   const decodedResult = decodeFunctionResult({
-    abi,
+    abi: mangoPriceReaderAbi,
     functionName: 'estimateExpenses',
     data: result.data!,
   })
@@ -81,7 +81,7 @@ contract MangoPriceReader {
 ### Use with ethers 6
 
 ```typescript
-  import { bytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
@@ -91,7 +91,7 @@ contract MangoPriceReader {
   ])
 
   const callData = MangoPriceReaderInterface.encodeFunctionData('estimateExpenses', [friendContractAddress, sellerContractAddress])
-  const bytecodeCallerData = getBytecodeCallerData(bytecode, callData)
+  const bytecodeCallerData = getBytecodeCallerData(mangoPriceReaderBytecode, callData)
 
   const result = await provider.call({
     to: null,

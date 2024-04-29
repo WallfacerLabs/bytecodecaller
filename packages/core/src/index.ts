@@ -1,1 +1,1 @@
-export { createDataForBytecode } from './createDataForBytecode'
+export { getBytecodeCallerData } from './getBytecodeCallerData'

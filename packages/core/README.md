@@ -22,7 +22,7 @@
 
 Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
 
-Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **createDataForBytecode** as in example below. 
+Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **getBytecodeCallerData** as in example below. 
 
 **Note:** There is no need to deploy the MangoPriceReader. 
 
@@ -69,7 +69,7 @@ contract MangoPriceReader {
     args: [friendContractAddress, sellerContractAddress],
   })
 
-  const byteCodeCallerData = createDataForBytecode(bytecode, callData)
+  const byteCodeCallerData = getBytecodeCallerData(bytecode, callData)
   const result = await client.call({
     to: null,
     data: byteCodeCallerData,
@@ -95,7 +95,7 @@ contract MangoPriceReader {
   ])
 
   const callData = PriceReaderInterface.encodeFunctionData('read', [friendContractAddress, sellerContractAddress])
-  const bytecodeCallerData = createDataForBytecode(bytecode, callData)
+  const bytecodeCallerData = getBytecodeCallerData(bytecode, callData)
 
   const result = await provider.call({
     to: null,

@@ -1,6 +1,6 @@
 import { OPCODES } from 'src/constants/opcodes'
-import { createDataForBytecode } from 'src/createDataForBytecode'
 import { UnevenBytesLengthError } from 'src/errors'
+import { getBytecodeCallerData } from 'src/getBytecodeCallerData'
 import { describe, expect, it } from 'vitest'
 
 const ZERO_HEX = '00'
@@ -49,7 +49,7 @@ function getExpectedBytecode(
   )
 }
 
-describe('createDataForByteCode', () => {
+describe('getBytecodeCallerData', () => {
   const bytecode = 'bytecode'
   const calldata = 'calldata'
   const bytecodeSizeHex = '04'
@@ -67,23 +67,23 @@ describe('createDataForByteCode', () => {
 
   describe('creates data for bytecode', () => {
     it('no prefix', () => {
-      expect(createDataForBytecode(bytecode, calldata).toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
+      expect(getBytecodeCallerData(bytecode, calldata).toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
     })
 
     it('bytecode with prefix', () => {
-      expect(createDataForBytecode(`0x${bytecode}`, calldata).toLowerCase()).toBe(
+      expect(getBytecodeCallerData(`0x${bytecode}`, calldata).toLowerCase()).toBe(
         `0x${expectedDataForBytecode}`.toLowerCase()
       )
     })
 
     it('calldata with prefix', () => {
-      expect(createDataForBytecode(bytecode, `0x${calldata}`).toLowerCase()).toBe(
+      expect(getBytecodeCallerData(bytecode, `0x${calldata}`).toLowerCase()).toBe(
         `0x${expectedDataForBytecode}`.toLowerCase()
       )
     })
 
     it('both with prefix', () => {
-      expect(createDataForBytecode(`0x${bytecode}`, `0x${calldata}`).toLowerCase()).toBe(
+      expect(getBytecodeCallerData(`0x${bytecode}`, `0x${calldata}`).toLowerCase()).toBe(
         `0x${expectedDataForBytecode}`.toLowerCase()
       )
     })
@@ -102,7 +102,7 @@ describe('createDataForByteCode', () => {
       datSizeHex,
       calldataMemoryPositionHex
     )
-    expect(createDataForBytecode('', calldata).toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
+    expect(getBytecodeCallerData('', calldata).toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
   })
 
   it('empty calldata', () => {
@@ -117,16 +117,16 @@ describe('createDataForByteCode', () => {
       datSizeHex,
       calldataMemoryPositionHex
     )
-    expect(createDataForBytecode(bytecode, '').toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
+    expect(getBytecodeCallerData(bytecode, '').toLowerCase()).toBe(`0x${expectedDataForBytecode}`.toLowerCase())
   })
 
   describe('invalid input', () => {
     it('uneven calldata length', () => {
-      expect(() => createDataForBytecode(bytecode, '0')).toThrow(UnevenBytesLengthError)
+      expect(() => getBytecodeCallerData(bytecode, '0')).toThrow(UnevenBytesLengthError)
     })
 
     it('uneven bytecode length', () => {
-      expect(() => createDataForBytecode('0', calldata)).toThrow(UnevenBytesLengthError)
+      expect(() => getBytecodeCallerData('0', calldata)).toThrow(UnevenBytesLengthError)
     })
   })
 })

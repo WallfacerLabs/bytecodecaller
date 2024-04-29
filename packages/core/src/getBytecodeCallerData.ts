@@ -1,7 +1,7 @@
 import { OpCodeBuilder } from './OpCodeBuilder'
 import { UnevenBytesLengthError } from './errors'
 
-export function createDataForBytecode(bytecode: string, callData: string) {
+export function getBytecodeCallerData(bytecode: string, callData: string) {
   if (bytecode.length % 2 !== 0 || callData.length % 2 !== 0) throw new UnevenBytesLengthError()
 
   bytecode.startsWith('0x') ? (bytecode = bytecode.slice(2)) : bytecode

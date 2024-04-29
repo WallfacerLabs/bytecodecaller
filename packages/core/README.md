@@ -1,15 +1,6 @@
-<br/>
+# Bytecode Caller
 
-<p align="center">
-  <h1>Bytecode Caller</h1>
-  </a>
-</p>
-
-<p align="center">
-  Simple yet powerful multicall successor
-<p>
-
-<br>
+### *Simple yet powerful multicall successor*
 
 ## About
 

@@ -56,7 +56,7 @@ contract MangoPriceReader {
   const abi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
   const callData = encodeFunctionData({
     abi,
-    functionName: 'read',
+    functionName: 'estimateExpenses',
     args: [friendContractAddress, sellerContractAddress],
   })
 
@@ -81,11 +81,11 @@ contract MangoPriceReader {
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const PriceReaderInterface = new Interface([
+  const MangoPriceReaderInterface = new Interface([
     'function estimateExpenses(address, address) external view returns (uint256)',
   ])
 
-  const callData = PriceReaderInterface.encodeFunctionData('read', [friendContractAddress, sellerContractAddress])
+  const callData = MangoPriceReaderInterface.encodeFunctionData('estimateExpenses', [friendContractAddress, sellerContractAddress])
   const bytecodeCallerData = getBytecodeCallerData(bytecode, callData)
 
   const result = await provider.call({
@@ -93,7 +93,7 @@ contract MangoPriceReader {
     data: bytecodeCallerData,
   })
 
-  const decodedResult = PriceReaderInterface.decodeFunctionResult('estimateExpenses', result)
+  const decodedResult = MangoPriceReaderInterface.decodeFunctionResult('estimateExpenses', result)
 ```
 
 ## License

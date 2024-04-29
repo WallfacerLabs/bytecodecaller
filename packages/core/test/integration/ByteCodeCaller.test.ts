@@ -1,4 +1,4 @@
-import { createDataForBytecode } from 'src/createDataForBytecode'
+import { getBytecodeCallerData } from 'src/getBytecodeCallerData'
 import { decodeFunctionResult, encodeFunctionData } from 'viem'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 import { startAnvil, stopAnvil } from './server/anvil'
@@ -24,7 +24,7 @@ describe('ByteCodeCaller', () => {
       args: [client.contracts.Friend.address, client.contracts.Seller.address],
     })
 
-    const byteCodeCallerData = createDataForBytecode(contract.bytecode, callData)
+    const byteCodeCallerData = getBytecodeCallerData(contract.bytecode, callData)
     const result = await client.call({
       to: null,
       data: byteCodeCallerData,

@@ -11,5 +11,10 @@
     "strict": true,
     "outDir": "./build"
   },
-  "include": ["src", "test"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
 }

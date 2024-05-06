@@ -9,7 +9,9 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "strict": true,
-    "declaration": true
+    "declaration": true,
+    "outDir": "./build",
+    "composite": true
   },
   "include": ["src"]
 }

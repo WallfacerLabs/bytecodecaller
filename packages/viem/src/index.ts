@@ -1,4 +1,4 @@
-import { createDataForBytecode } from 'core'
+import { getBytecodeCallerData } from '@bytecodecaller/core'
 import { type Abi, type PublicClient, decodeFunctionResult, encodeFunctionData } from 'viem'
 
 interface CallBytecodeParams {
@@ -39,7 +39,7 @@ async function callBytecode<ReturnType>({
     functionName: method,
     args,
   })
-  const data = createDataForBytecode(bytecode, contractCallData)
+  const data = getBytecodeCallerData(bytecode, contractCallData)
 
   const result = await client.call({
     data,

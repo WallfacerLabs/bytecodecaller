@@ -15,7 +15,7 @@
     "pretest": "pnpm run --filter @bytecodecaller/testing generate",
     "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs",
     "build:esm": "tsc -p tsconfig.build.json --module esnext --target esnext --outDir dist/esm",
-    "build": "pnpm run build:esm && pnpm run build:cjs",
+    "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
     "clean": "rm -rf dist"
   },
   "devDependencies": {

@@ -11,10 +11,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
-    "test": "pnpm pretest && TS_NODE_PROJECT=./tsconfig.test.json vitest run",
+    "test": "pnpm pretest && vitest run",
     "pretest": "pnpm run --filter @bytecodecaller/testing generate",
-    "build:cjs": "tsc --outDir dist/cjs",
-    "build:esm": "tsc --module esnext --target esnext --outDir dist/esm",
+    "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs",
+    "build:esm": "tsc -p tsconfig.build.json --module esnext --target esnext --outDir dist/esm",
     "build": "pnpm run build:esm && pnpm run build:cjs",
     "clean": "rm -rf dist"
   },

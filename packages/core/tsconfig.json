@@ -6,12 +6,11 @@
     "target": "esnext",
     "sourceMap": true,
     "skipLibCheck": true,
-    "baseUrl": "./src",
-    "rootDir": "./src",
+    "baseUrl": ".",
+    "rootDir": "./",
     "strict": true,
     "declaration": true,
-    "outDir": "./build",
     "composite": true
   },
-  "include": ["src"]
+  "include": ["src", "test"]
 }

@@ -52,6 +52,8 @@ contract MangoPriceReader {
 
 ### Use with viem
 
+For the use with viem, we highly recommend using the dedicated [viem extension](./packages/viem/README.md). If you'd prefer to use Bytecode Caller directly, follow the instructions below.
+
 ```typescript
   import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 

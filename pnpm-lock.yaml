@@ -17,6 +17,9 @@ importers:
       '@biomejs/biome':
         specifier: ^1.6.1
         version: 1.6.1
+      '@bytecodecaller/testing':
+        specifier: workspace:*
+        version: link:../testing
       '@types/node':
         specifier: ^20.11.30
         version: 20.11.30
@@ -39,6 +42,27 @@ importers:
         specifier: ^1.5.2
         version: 1.5.2(@types/node@20.11.30)
 
+  packages/testing:
+    devDependencies:
+      '@biomejs/biome':
+        specifier: ^1.6.1
+        version: 1.6.1
+      '@viem/anvil':
+        specifier: ^0.0.9
+        version: 0.0.9
+      solc:
+        specifier: ^0.8.25
+        version: 0.8.25
+      typescript:
+        specifier: ^5.4.2
+        version: 5.4.2
+      viem:
+        specifier: ^2.9.27
+        version: 2.9.28(typescript@5.4.2)
+      vitest:
+        specifier: ^1.5.2
+        version: 1.5.2(@types/node@20.11.30)
+
   packages/viem:
     dependencies:
       '@bytecodecaller/core':
@@ -51,12 +75,9 @@ importers:
       '@biomejs/biome':
         specifier: ^1.6.1
         version: 1.6.1
-      '@viem/anvil':
-        specifier: ^0.0.9
-        version: 0.0.9
-      solc:
-        specifier: ^0.8.25
-        version: 0.8.25
+      '@bytecodecaller/testing':
+        specifier: workspace:*
+        version: link:../testing
       typescript:
         specifier: ^5.4.2
         version: 5.4.2

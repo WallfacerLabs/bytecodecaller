@@ -1,40 +1,6 @@
-# Logs
-logs
-*.log
-*.dump
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
-.env
-.env.prod
-
+# dependencies
 node_modules
+
+# build
+build
 dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-
-# Generated
-generated
-
-# Postgres data
-dev/data
-dev/fileHashes
-dev/db-autostart/2.vaultsfyi.sql
-backup.sql
-
-.turbo
-cache

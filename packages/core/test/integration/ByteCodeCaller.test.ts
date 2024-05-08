@@ -1,7 +1,7 @@
+import { startAnvil, stopAnvil } from '@bytecodecaller/testing'
 import { getBytecodeCallerData } from 'src/getBytecodeCallerData'
 import { decodeFunctionResult, encodeFunctionData } from 'viem'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { startAnvil, stopAnvil } from './server/anvil'
 import { getAnvilClient } from './server/client'
 
 describe('ByteCodeCaller', () => {

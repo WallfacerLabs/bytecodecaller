@@ -1,0 +1,17 @@
+{
+  "name": "@bytecodecaller/testing",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "lint": "pnpm typecheck && biome check .",
+    "lint:fix": "biome check . --apply",
+    "generate": "solcjs --bin ./src/contracts/*.sol -o ./build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.6.1",
+    "@viem/anvil": "^0.0.9",
+    "solc": "^0.8.25",
+    "typescript": "^5.4.2",
+    "viem": "^2.9.27",
+    "vitest": "^1.5.2"
+  }
+}

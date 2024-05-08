@@ -12,7 +12,7 @@
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
     "test": "pnpm pretest && TS_NODE_PROJECT=./tsconfig.test.json vitest run",
-    "pretest": "solcjs --bin ./test/integration/contracts/*.sol -o ./test/integration/build",
+    "pretest": "pnpm run --filter @bytecodecaller/testing generate",
     "build:cjs": "tsc --outDir dist/cjs",
     "build:esm": "tsc --module esnext --target esnext --outDir dist/esm",
     "build": "pnpm run build:esm && pnpm run build:cjs",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.1",
+    "@bytecodecaller/testing": "workspace:*",
     "@types/node": "^20.11.30",
     "@viem/anvil": "^0.0.9",
     "solc": "^0.8.25",

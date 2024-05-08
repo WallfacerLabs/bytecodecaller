@@ -1,5 +1,5 @@
+import { startAnvil, stopAnvil } from '@bytecodecaller/testing'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { startAnvil, stopAnvil } from './server/anvil'
 import { getAnvilClient } from './server/client'
 
 describe('bytecodecaller/viem', () => {

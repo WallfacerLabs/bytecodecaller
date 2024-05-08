@@ -1,11 +1,11 @@
 import fs from 'node:fs'
+import path from 'node:path'
 import type { Anvil } from '@viem/anvil'
 import {
   http,
   type Abi,
   type Address,
   type Hex,
-  type Transport,
   createPublicClient,
   createTestClient,
   createWalletClient,
@@ -13,34 +13,6 @@ import {
   zeroAddress,
 } from 'viem'
 import { anvil as anvilChain } from 'viem/chains'
-
-interface Contract {
-  abi: Abi
-  bytecode: Hex
-  address?: Address
-}
-
-function getBytecode(fileName: string, contractName: string): Hex {
-  fileName = fileName.replace('.', '_')
-  return fs
-    .readFileSync(`./test/integration/build/test_integration_contracts_${fileName}_${contractName}.bin`)
-    .toString() as Hex
-}
-
-const contracts: Record<string, Contract> = {
-  Friend: {
-    abi: parseAbi(['function askHowManyMangoes() external view returns (uint256)']),
-    bytecode: getBytecode('FruitMarket.sol', 'FriendWhoWantsMangoes'),
-  },
-  Seller: {
-    abi: parseAbi(['function askForMangoesPrice(uint256 numberOfMangoes) external view returns (uint256)']),
-    bytecode: getBytecode('FruitMarket.sol', 'MangoSeller'),
-  },
-  PriceEstimator: {
-    abi: parseAbi(['function estimateExpenses(address, address) external view returns (uint256)']),
-    bytecode: getBytecode('MangoPriceEstimator.sol', 'MangoPriceEstimator'),
-  },
-} as const
 
 export async function deployContracts(anvil: Anvil) {
   const transport = http(`http://${anvil.host}:${anvil.port}`)
@@ -79,4 +51,31 @@ export async function deployContracts(anvil: Anvil) {
   }
 
   return contracts
+}
+
+type Contract = {
+  abi: Abi
+  bytecode: Hex
+  address?: Address
+}
+
+const contracts: Record<string, Contract> = {
+  Friend: {
+    abi: parseAbi(['function askHowManyMangoes() external view returns (uint256)']),
+    bytecode: getBytecode('FruitMarket.sol', 'FriendWhoWantsMangoes'),
+  },
+  Seller: {
+    abi: parseAbi(['function askForMangoesPrice(uint256 numberOfMangoes) external view returns (uint256)']),
+    bytecode: getBytecode('FruitMarket.sol', 'MangoSeller'),
+  },
+  PriceEstimator: {
+    abi: parseAbi(['function estimateExpenses(address, address) external view returns (uint256)']),
+    bytecode: getBytecode('MangoPriceEstimator.sol', 'MangoPriceEstimator'),
+  },
+} as const
+
+function getBytecode(contractFileName: string, contractName: string): Hex {
+  const fileName = `src_contracts_${contractFileName.replace('.', '_')}_${contractName}.bin`
+  const filePath = path.join(__dirname, '..', 'build', fileName)
+  return fs.readFileSync(filePath).toString() as Hex
 }

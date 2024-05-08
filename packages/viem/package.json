@@ -1,11 +1,22 @@
 {
   "name": "@bytecodecaller/viem",
+  "author": "Wallfacer Labs",
+  "repository": "git@github.com:WallfacerLabs/bytecodecaller/viem.git",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
     "test": "pnpm pretest && vitest run",
-    "pretest": "pnpm run --filter @bytecodecaller/testing generate"
+    "pretest": "pnpm run --filter @bytecodecaller/testing generate",
+    "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs",
+    "build:esm": "tsc -p tsconfig.build.json --module esnext --target esnext --outDir dist/esm",
+    "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
+    "clean": "rm -rf dist"
   },
   "dependencies": {
     "@bytecodecaller/core": "workspace:*"

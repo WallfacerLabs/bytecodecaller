@@ -1,12 +1,12 @@
 import { getBytecodeCallerData } from '@bytecodecaller/core'
-import { type Abi, type PublicClient, decodeFunctionResult, encodeFunctionData } from 'viem'
+import { type Abi, type Hex, type PublicClient, decodeFunctionResult, encodeFunctionData } from 'viem'
 
 interface CallBytecodeParams {
   client: {
     call: PublicClient['call']
   }
-  block: bigint
-  bytecode: string
+  block?: bigint
+  bytecode: Hex
   abi: Abi
   method: string
   args: any[]
@@ -15,7 +15,7 @@ interface CallBytecodeParams {
 export const callBytecodeExtension = (client: {
   call: PublicClient['call']
 }) => ({
-  callBytecode: ({ block, bytecode, abi, method, args }: CallBytecodeParams) =>
+  callBytecode: ({ block, bytecode, abi, method, args }: Omit<CallBytecodeParams, 'client'>) =>
     callBytecode({
       client,
       block,

@@ -1,5 +1,11 @@
 # @bytecodecaller/core
 
+## 1.2.0
+
+### Minor Changes
+
+- Introduce viem extension
+
 ## 1.1.0
 
 ### Minor Changes

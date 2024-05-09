@@ -1,5 +1,6 @@
 {
   "name": "@bytecodecaller/testing",
+  "version": "1.0.0",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",

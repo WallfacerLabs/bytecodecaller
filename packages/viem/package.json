@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.1",
-    "@bytecodecaller/testing": "workspace:*",
+    "@bytecodecaller/testing": "link:../testing",
     "typescript": "^5.4.2",
     "vitest": "^1.5.2"
   }

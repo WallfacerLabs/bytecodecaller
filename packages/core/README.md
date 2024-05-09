@@ -49,6 +49,18 @@ contract MangoPriceReader {
 }
 ```
 
+### Installation
+
+yarn
+
+```
+yarn add @bytecodecaller/core
+```
+
+npm
+```
+npm install @bytecodecaller/core
+```
 
 ### Use with viem
 

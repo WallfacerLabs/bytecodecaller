@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.6.1",
-    "@bytecodecaller/testing": "workspace:*",
+    "@bytecodecaller/testing": "link:../testing",
     "@types/node": "^20.11.30",
     "@viem/anvil": "^0.0.9",
     "solc": "^0.8.25",

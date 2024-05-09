@@ -55,12 +55,11 @@ contract MangoPriceReader {
 For the use with viem, we highly recommend using the dedicated [viem extension](./packages/viem/README.md). If you'd prefer to use Bytecode Caller directly, follow the instructions below.
 
 ```typescript
-  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode, abi as mangoPriceReaderAbi } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const mangoPriceReaderAbi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
   const callData = encodeFunctionData({
     abi: mangoPriceReaderAbi,
     functionName: 'estimateExpenses',
@@ -83,14 +82,12 @@ For the use with viem, we highly recommend using the dedicated [viem extension](
 ### Use with ethers 6
 
 ```typescript
-  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode, abi as mangoPriceReaderAbi } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
 
-  const MangoPriceReaderInterface = new Interface([
-    'function estimateExpenses(address, address) external view returns (uint256)',
-  ])
+  const MangoPriceReaderInterface = new Interface(mangoPriceReaderAbi)
 
   const callData = MangoPriceReaderInterface.encodeFunctionData('estimateExpenses', [friendContractAddress, sellerContractAddress])
   const bytecodeCallerData = getBytecodeCallerData(mangoPriceReaderBytecode, callData)

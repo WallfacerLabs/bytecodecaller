@@ -59,12 +59,10 @@ or if you use more extensions:
 ### Execute the call
 
 ```typescript
-  import { bytecode as mangoPriceReaderBytecode } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
+  import { bytecode as mangoPriceReaderBytecode, abi as mangoPriceReaderAbi } from 'build/MangoPriceReader.sol/MangoPriceReader.json'
 
   const friendContractAddress = '0xE930Eb2004e09f6492F49f58A2F35C0B1382c68C'
   const sellerContractAddress = '0x2d5b56ee345698c000061B81755eB5E70eA8DEa1'
-
-  const mangoPriceReaderAbi = parseAbi(['function estimateExpenses(address, address) external view returns (uint256)'])
 
   const result = await client.callBytecode({
       bytecode: mangoPriceReaderBytecode,

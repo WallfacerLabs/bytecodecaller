@@ -8,6 +8,19 @@ Bytecode Caller viem extension provides an easy way to use the Bytecode Caller i
 
 For information about the Bytecode Caller itself, please refer to the [Bytecode Caller](../core/README.md) documentation.
 
+### Installation
+
+yarn
+
+```
+yarn add @bytecodecaller/viem
+```
+
+npm
+```
+npm install @bytecodecaller/viem
+```
+
 ## Example use
 
 Contract that you want to read:

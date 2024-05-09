@@ -9,7 +9,6 @@
     "baseUrl": ".",
     "rootDir": "./",
     "strict": true,
-    "declaration": true,
     "composite": true
   },
   "include": ["src", "test"]

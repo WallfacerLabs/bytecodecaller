@@ -61,6 +61,8 @@ Let's consider the following examples when BytecodeCaller makes life even easier
 
 - passing arguments in read functions
 
+#### Multicall 
+
 In the following example we want to calculate the amount of DAI that user can get by withdrawing half of their shares from SavingsDai. 
 
 ```solidity
@@ -77,6 +79,8 @@ When you use Multicall, first you need to ask for user's balance, then you can c
 ```
 
 ![image](./docs/image/Multicall-sequence.png)
+
+#### BytecodeCaller 
 
 With BytecodeCaller you can get all the information in a single call, in the same block.
 

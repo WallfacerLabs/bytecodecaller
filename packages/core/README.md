@@ -89,7 +89,7 @@ contract SavingsDaiReader {
 ```
 
 ```typescript
-const { balance, redeemedAmount } = callBytecodecaller(userAddress);
+const { balance, redeemedAmount } = callBytecodecaller(SavingsDaiReader, 'read', userAddress);
 ```
 
 You can see the difference between those two in the sequence diagrams. 

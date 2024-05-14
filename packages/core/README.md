@@ -49,7 +49,7 @@ contract MangoPriceReader {
 }
 ```
 
-### Multicall vs Bytecodecaller
+### Multicall vs BytecodeCaller
 
 There are 2 huge differences between using Multicall and our library 
 
@@ -57,7 +57,7 @@ There are 2 huge differences between using Multicall and our library
 
 - you can't use Multicall for blocks from before Multicall was deployed
 
-Let's consider the following examples when Bytecodecaller makes life even easier than Multicall
+Let's consider the following examples when BytecodeCaller makes life even easier than Multicall
 
 - passing arguments in read functions
 
@@ -76,7 +76,7 @@ When you use Multicall, first you need to ask for user's balance, then you can c
   const redeemedAmount = callMulticall(IERC4626, 'previewRedeem', userBalance/2); // redeemedAmount will be loaded in the second multicall's call
 ```
 
-With Bytecodecaller you can get all the information in a single call, in the same block.
+With BytecodeCaller you can get all the information in a single call, in the same block.
 
 ```solidity
 contract SavingsDaiReader {

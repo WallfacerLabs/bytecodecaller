@@ -76,6 +76,8 @@ When you use Multicall, first you need to ask for user's balance, then you can c
   const redeemedAmount = callMulticall(IERC4626, 'previewRedeem', userBalance/2); // redeemedAmount will be loaded in the second multicall's call
 ```
 
+![image](./docs/image/Multicall-sequence.png)
+
 With BytecodeCaller you can get all the information in a single call, in the same block.
 
 ```solidity
@@ -91,10 +93,6 @@ contract SavingsDaiReader {
 ```typescript
 const { balance, redeemedAmount } = callBytecodecaller(SavingsDaiReader, 'read', userAddress);
 ```
-
-You can see the difference between those two in the sequence diagrams. 
-
-![image](./docs/image/Multicall-sequence.png)
 
 ![image](./docs/image/Bytecodecaller-sequence.png)
 

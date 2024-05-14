@@ -49,6 +49,56 @@ contract MangoPriceReader {
 }
 ```
 
+### Multicall vs Bytecodecaller
+
+There are 2 huge differences between using Multicall and our library 
+
+- when using Multicall, you need to wait for a response to use it in the next call
+
+- you can't use Multicall for blocks from before Multicall was deployed
+
+Let's consider the following examples when Bytecodecaller makes life even easier than Multicall
+
+- passing arguments in read functions
+
+In the following example we want to calculate the amount of DAI that user can get by withdrawing half of their shares from SavingsDai. 
+
+```solidity
+contract SavingsDai is IERC4626 {
+  mapping (address => uint256) public balanceOf;
+  function previewRedeem(uint256 shares);
+}
+```
+When you use Multicall, first you need to ask for user's balance, then you can call previewRedeem with divided by half balance. 
+
+```typescript
+  const userBalance = callMulticall(IERC4626, 'balanceOf', userAddress);
+  const redeemedAmount = callMulticall(IERC4626, 'previewRedeem', userBalance/2); // redeemedAmount will be loaded in the second multicall's call
+```
+
+With Bytecodecaller you can get all the information in a single call, in the same block.
+
+```solidity
+contract SavingsDaiReader {
+  function read(address userAddress) public returns(UserData) {
+    uint256 balance = savingsDai.balanceOf(userAddress);
+    uint256 redeemedAmount = savingsDai.previewRedeem(balance / 2);
+    return UserData({balance, redeemedAmount});
+  }
+}
+```
+
+```typescript
+const { balance, redeemedAmount } = callBytecodecaller(userAddress);
+```
+
+You can see the difference between those two in the sequence diagrams. 
+
+![image](./docs/image/Multicall-sequence.png)
+
+![image](./docs/image/Bytecodecaller-sequence.png)
+
+
 ### Installation
 
 yarn

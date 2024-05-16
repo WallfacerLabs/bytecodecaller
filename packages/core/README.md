@@ -16,7 +16,7 @@ BytecodeCaller pretends to deploy any reading contract allowing you to create an
 
 ## Overview
 
-Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
+Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the total price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
 
 Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **getBytecodeCallerData** as in example below. 
 
@@ -48,6 +48,58 @@ contract MangoPriceReader {
     }
 }
 ```
+
+### Multicall vs BytecodeCaller
+
+There are 2 huge differences between using Multicall and our library 
+
+- when using Multicall, you need to wait for a response to use it in the next call
+
+- you can't use Multicall for blocks from before Multicall was deployed
+
+Let's consider the following examples when BytecodeCaller makes life even easier than Multicall
+
+- passing arguments in read functions
+
+#### Multicall 
+
+In the following example we want to calculate the amount of DAI that user can get by withdrawing half of their shares from SavingsDai. 
+
+```solidity
+contract SavingsDai is IERC4626 {
+  mapping (address => uint256) public balanceOf;
+  function previewRedeem(uint256 shares);
+}
+```
+When you use Multicall, first you need to ask for user's balance, then you can call previewRedeem with divided by half balance. 
+
+```typescript
+  const userBalance = callMulticall(IERC4626, 'balanceOf', userAddress);
+  const redeemedAmount = callMulticall(IERC4626, 'previewRedeem', userBalance/2); // redeemedAmount will be loaded in the second multicall's call
+```
+
+![image](./docs/image/Multicall-sequence.png)
+
+#### BytecodeCaller 
+
+With BytecodeCaller you can get all the information in a single call, in the same block.
+
+```solidity
+contract SavingsDaiReader {
+  function read(address userAddress) public returns(UserData) {
+    uint256 balance = savingsDai.balanceOf(userAddress);
+    uint256 redeemedAmount = savingsDai.previewRedeem(balance / 2);
+    return UserData({balance, redeemedAmount});
+  }
+}
+```
+
+```typescript
+const { balance, redeemedAmount } = callBytecodecaller(SavingsDaiReader, 'read', userAddress);
+```
+
+![image](./docs/image/Bytecodecaller-sequence.png)
+
 
 ### Installation
 

@@ -12,7 +12,7 @@
 
 ## TL;DR
 
-BytecodeCaller pretends to deploy any reading contract allowing you to create any set of calls.
+BytecodeCaller simulates to deploy any reading contract allowing you to create any set of calls.
 
 ## Overview
 

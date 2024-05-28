@@ -1,0 +1,51 @@
+name: 🚀 Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+          # This allows the changesets/action step to override the default actions user,
+          # and allow CI jobs on commits coming from that step.
+          persist-credentials: false
+
+      - name: Use pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8.4.0
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.9.0
+          cache: 'pnpm'
+
+      - name: Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Set git user
+        run: |
+          git config user.name FILL_ME_IN
+          git config user.email FILL_ME_IN
+
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm run release
+          version: pnpm run version
+          commit: "🎉 Release new version"
+          title: "🎉 Release new version"
+          setupGitUser: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

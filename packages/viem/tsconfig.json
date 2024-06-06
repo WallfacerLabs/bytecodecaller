@@ -1,19 +1,14 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "module": "Preserve",
     "esModuleInterop": true,
     "target": "esnext",
     "sourceMap": true,
     "skipLibCheck": true,
     "baseUrl": ".",
     "rootDir": "./",
-    "strict": true
+    "strict": true,
+    "composite": true
   },
-  "include": ["src", "test"],
-  "references": [
-    {
-      "path": "../core"
-    }
-  ]
+  "include": ["src", "test"]
 }

@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
+    "module": "Preserve",
     "esModuleInterop": true,
     "target": "esnext",
     "sourceMap": true,

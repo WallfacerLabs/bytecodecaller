@@ -1,6 +1,6 @@
 import { startAnvil, stopAnvil } from '@bytecodecaller/testing'
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
-import { getAnvilClient } from './server/client'
+import { getAnvilClient } from './server/client.js'
 
 describe('bytecodecaller/viem', () => {
   let client: Awaited<ReturnType<typeof getAnvilClient>>

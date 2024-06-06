@@ -1,5 +1,5 @@
 import { deployContracts, getAnvil } from '@bytecodecaller/testing'
-import { callBytecodeExtension } from 'src'
+import { callBytecodeExtension } from 'src/index.js'
 import { http, createPublicClient } from 'viem'
 
 export async function getAnvilClient() {

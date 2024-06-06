@@ -1,5 +1,5 @@
-import { OpCodeBuilder } from './OpCodeBuilder'
-import { UnevenBytesLengthError } from './errors'
+import { OpCodeBuilder } from './OpCodeBuilder.js'
+import { UnevenBytesLengthError } from './errors/UnevenBytesLengthError.js'
 
 export function getBytecodeCallerData(bytecode: string, callData: string) {
   if (bytecode.length % 2 !== 0 || callData.length % 2 !== 0) throw new UnevenBytesLengthError()

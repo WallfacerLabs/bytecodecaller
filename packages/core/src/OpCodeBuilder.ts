@@ -1,6 +1,7 @@
-import { OPCODES, type OpCodeName } from './constants/opcodes'
-import { InvalidBytesSizeError, UnevenBytesLengthError } from './errors'
-import { padHex } from './utils/padHex'
+import { OPCODES, type OpCodeName } from './constants/opcodes.js'
+import { InvalidBytesSizeError } from './errors/InvalidBytesSizeError.js'
+import { UnevenBytesLengthError } from './errors/UnevenBytesLengthError.js'
+import { padHex } from './utils/padHex.js'
 
 export class OpCodeBuilder {
   private opCodes: string[] = []

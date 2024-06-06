@@ -1,1 +1,1 @@
-export { getBytecodeCallerData } from './getBytecodeCallerData'
+export { getBytecodeCallerData } from './getBytecodeCallerData.js'

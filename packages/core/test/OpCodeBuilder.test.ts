@@ -1,8 +1,8 @@
-import { OpCodeBuilder } from 'src/OpCodeBuilder.js'
-import { OPCODES, type OpCodeName } from 'src/constants/opcodes.js'
-import { InvalidBytesSizeError } from 'src/errors/InvalidBytesSizeError.js'
-import { UnevenBytesLengthError } from 'src/errors/UnevenBytesLengthError.js'
 import { beforeEach, describe, expect, it } from 'vitest'
+import { OpCodeBuilder } from '../src/OpCodeBuilder.js'
+import { OPCODES, type OpCodeName } from '../src/constants/opcodes.js'
+import { InvalidBytesSizeError } from '../src/errors/InvalidBytesSizeError.js'
+import { UnevenBytesLengthError } from '../src/errors/UnevenBytesLengthError.js'
 
 describe('padHex', () => {
   let opcodeBuilder: OpCodeBuilder

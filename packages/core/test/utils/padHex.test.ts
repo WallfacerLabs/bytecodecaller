@@ -1,5 +1,5 @@
-import { padHex } from 'src/utils/padHex.js'
 import { describe, expect, it } from 'vitest'
+import { padHex } from '../../src/utils/padHex.js'
 
 describe('padHex', () => {
   it('empty string', () => {

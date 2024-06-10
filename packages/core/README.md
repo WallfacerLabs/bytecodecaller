@@ -50,11 +50,11 @@ contract MangoPriceReader {
 ```
 
 Another, more advanced, real life example. Imagine, you need a set of tuples, consisting of symbols of the assets listed on a lending market and their prices posted onchain, by the oracle used by this lending protocol. An example described set of data could look like this: `[['DAI', 1e8], ['WETH', 3700e8], ['wstETH', 4200e8]]`. In this example we are going to use Sparklend V1 as a lending market to fetch data from. In order to assemble this data without the bytecode caller, at least 2 calls are needed.
-1. Fetch a list of all assets (``)
+1. Fetch a list of all assets
 ```typescript
 const assetAddresses = await sparklendPool.getReservesList()
 ```
-2. Fetch all symbols of all assets and fetch all prices using a multicall (`for`)
+2. Fetch all symbols of all assets and fetch all prices using a multicall
 ```typescript
 const multicallCalls = []
 for (const assetAddress of assetAddresses) {

@@ -1,7 +1,7 @@
+import { describe, expect, it } from 'vitest'
 import { OPCODES } from '../src/constants/opcodes.js'
 import { UnevenBytesLengthError } from '../src/errors/UnevenBytesLengthError.js'
 import { getBytecodeCallerData } from '../src/getBytecodeCallerData.js'
-import { describe, expect, it } from 'vitest'
 
 const ZERO_HEX = '00'
 const MAX_BYTE = 'FF'

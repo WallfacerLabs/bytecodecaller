@@ -12,15 +12,15 @@
 
 ## TL;DR
 
-BytecodeCaller simulates to deploy any reading contract allowing you to create any set of calls.
+BytecodeCaller simulates a deployment of any reading contract allowing you to create any set of codependent calls using one RPC call.
 
 ## Overview
 
-Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the total price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls. 
+Bytecode Caller allows you to compose any number of dependant on each other calls using e.g. Solidity. In the following example there is a smart contract *FriendWhoWantsMangoes* and *MangoSeller*. If you want to know the total price, first you need to call *askHowManyMangoes* on *FriendWhoWantsMangoes*, and then take the result and call *askForMangoesPrice* on *MangoSeller* with it. Normally, using usual RPC call or calls via Multisig, in this scenario you would need 2 separate calls.
 
-Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **getBytecodeCallerData** as in example below. 
+Bytecode Caller allows you to make it in one call. Simply, you will need to write MangoPriceReader smart contract and pass its compiled bytecode to **getBytecodeCallerData** as in example below.
 
-**Note:** There is no need to deploy the MangoPriceReader. 
+**Note:** There is no need to deploy the MangoPriceReader.
 
 Contract that you want to read:
 
@@ -49,9 +49,54 @@ contract MangoPriceReader {
 }
 ```
 
+Another, more advanced, real life example. Imagine, you need a set of tuples, consisting of symbols of the assets listed on a lending market and their prices posted onchain, by the oracle used by this lending protocol. An example described set of data could look like this: `[['DAI', 1e8], ['WETH', 3700e8], ['wstETH', 4200e8]]`. In this example we are going to use Sparklend V1 as a lending market to fetch data from. In order to assemble this data without the bytecode caller, at least 2 calls are needed.
+1. Fetch a list of all assets (``)
+```typescript
+const assetAddresses = await sparklendPool.getReservesList()
+```
+2. Fetch all symbols of all assets and fetch all prices using a multicall (`for`)
+```typescript
+const multicallCalls = []
+for (const assetAddress of assetAddresses) {
+  multicallCalls.push({
+    target: assetAddress
+    callData: erc20Interface.encodeFunctionData('symbol')
+  })
+  multicallCalls.push({
+    target: sparklendOracleAddress
+    callData: oracleInterface.encodeFunctionData('getAssetPrice', [assetAddress])
+  })
+}
+const results = await multicall.aggregate(multicallCalls)
+```
+Note, that it's impossible to squash these two calls into one, because the results of the first call determine both the target addresses and arguments of the second call.
+
+With bytecodecaller this could be squashed into a single call.
+The query contract could look like this:
+```solidity
+contract NonDeployableDataQueryContract {
+    struct PriceRecord {
+      string symbol;
+      uint256 price;
+    }
+
+    function fetchData(address pool, address oracle) public view returns (PriceRecord[] memory priceRecords) {
+        address[] memory assetAddresses = IPool(pool).getReservesList();
+        priceRecords = new PriceRecord[](assetAddresses.length);
+
+        for (uint256 i = 0; i < assetAddresses.length; i++) {
+          priceRecords[i] = PriceRecord({
+            symbol: IERC20(assetAddresses[i]).symbol(),
+            price: IOracle(oracle).getAssetPrice(assetAddresses[i])
+          });
+        }
+    }
+}
+```
+In this case the whole operation will be executed with just one RPC call
 ### Multicall vs BytecodeCaller
 
-There are 2 huge differences between using Multicall and our library 
+There are 2 huge differences between using Multicall and our library
 
 - when using Multicall, you need to wait for a response to use it in the next call
 
@@ -61,9 +106,9 @@ Let's consider the following examples when BytecodeCaller makes life even easier
 
 - passing arguments in read functions
 
-#### Multicall 
+#### Multicall
 
-In the following example we want to calculate the amount of DAI that user can get by withdrawing half of their shares from SavingsDai. 
+In the following example we want to calculate the amount of DAI that user can get by withdrawing half of their shares from SavingsDai.
 
 ```solidity
 contract SavingsDai is IERC4626 {
@@ -71,7 +116,7 @@ contract SavingsDai is IERC4626 {
   function previewRedeem(uint256 shares);
 }
 ```
-When you use Multicall, first you need to ask for user's balance, then you can call previewRedeem with divided by half balance. 
+When you use Multicall, first you need to ask for user's balance, then you can call previewRedeem with divided by half balance.
 
 ```typescript
   const userBalance = callMulticall(IERC4626, 'balanceOf', userAddress);
@@ -80,7 +125,7 @@ When you use Multicall, first you need to ask for user's balance, then you can c
 
 ![image](./docs/image/Multicall-sequence.png)
 
-#### BytecodeCaller 
+#### BytecodeCaller
 
 With BytecodeCaller you can get all the information in a single call, in the same block.
 

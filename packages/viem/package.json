@@ -5,18 +5,21 @@
   "license": "MIT",
   "version": "1.2.0",
   "type": "module",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "pnpm typecheck && biome check .",
     "lint:fix": "biome check . --apply",
     "test": "pnpm pretest && vitest run",
     "pretest": "pnpm run --filter @bytecodecaller/testing generate",
-    "build:cjs": "tsc -p tsconfig.build.json --outDir dist/cjs",
-    "build:esm": "tsc -p tsconfig.build.json --module esnext --target esnext --outDir dist/esm",
-    "build": "pnpm run clean && pnpm run build:esm && pnpm run build:cjs",
+    "build": "pnpm run clean && tsup",
     "clean": "rm -rf dist"
   },
   "dependencies": {
@@ -28,6 +31,7 @@
   "devDependencies": {
     "@biomejs/biome": "^1.6.1",
     "@bytecodecaller/testing": "link:../testing",
+    "tsup": "^8.1.0",
     "typescript": "^5.4.2",
     "vitest": "^1.5.2"
   }

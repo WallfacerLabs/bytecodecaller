@@ -1,5 +1,16 @@
 # @bytecodecaller/viem
 
+## 1.3.0
+
+### Minor Changes
+
+- 4dae70d: Update README and settings
+
+### Patch Changes
+
+- Updated dependencies [4dae70d]
+  - @bytecodecaller/core@1.4.0
+
 ## 1.2.0
 
 ### Minor Changes
